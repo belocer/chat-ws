@@ -3,6 +3,8 @@
 import {ref} from "vue";
 import {Head} from "@inertiajs/vue3";
 import main from '@/Layouts/Main.vue'
+import { reactive } from 'vue'
+import { router } from '@inertiajs/vue3'
 
 defineOptions({
     layout: main
@@ -13,15 +15,18 @@ const props = defineProps<{
     users?: Array,
 }>()
 
+const form = reactive({
+    id: null,
+    title: null
+})
+
 const users = ref(props.users)
 
-const format = (date) => {
-    let formatDate = new Date(date)
-    const day = formatDate.getDate();
-    const month = formatDate.getMonth() + 1;
-    const year = formatDate.getFullYear();
-
-    return `${day}.${month}.${year}`;
+const store = (id) => {
+    router.post('/chats', {
+        users: [id],
+        title: null
+    })
 }
 
 </script>
@@ -30,17 +35,18 @@ const format = (date) => {
     <Head :title="title"/>
     <div>
         <div class="flex gap-2">
-            <div class="w-1/2 border border-gray-600 rounded rounded-1xl p-2">
+            <div class="w-1/2 p-4 bg-white border border-gray-200 rounded">
                 Lorem ipsum dolor sit amet, consectetur adipisicing elit. Expedita harum impedit minima nisi omnis qui
                 quisquam repellendus sit vitae voluptatum.
             </div>
-            <div class="w-1/2 border border-gray-400 rounded rounded-1xl p-2">
+            <div class="w-1/2 p-4 bg-white border border-gray-200 rounded">
                 <h3 class="font-semibold text-center mb-5 text-purple-600 text-xl">{{ title }}</h3>
                 <div v-if="users">
                     <ul v-for="user in users" :key="user.id" class="flex" role="list">
                         <li class="row-user">
                             # id: <span class="text-base font-thin mr-3 ml-1">{{ user.id }}</span>
                             Name: <span class="text-base font-thin ml-1">{{ user.name }}</span>
+                            <button type="button" @click="store(user.id)" class="ml-2 bg-indigo-300 rounded p-2 text-white uppercase font-thin">Отправить</button>
                             <span class="pulse-circle">
                                 <span class="relative flex h-3 w-3">
                                     <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-sky-400 opacity-75"></span>

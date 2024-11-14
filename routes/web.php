@@ -22,6 +22,7 @@ Route::get('/dashboard', function () {
 Route::middleware('auth')->group(function () {
 
     Route::get('/chats', [ChatController::class, 'index'])->name('chats.index');
+    Route::post('/chats', [ChatController::class, 'store'])->name('chats.store');
 
 
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');

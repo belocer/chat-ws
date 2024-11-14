@@ -6,7 +6,7 @@ import {Link} from '@inertiajs/vue3'
 <template>
     <div class="w-3/4 p-4 mx-auto">
         <div>
-            <div>
+            <div class="mb-4">
                 <Link :href="route('dashboard')">
                     Dashboard
                 </Link>
